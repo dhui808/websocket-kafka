@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="LOGS" value="/opt/spring-kafka-notification-service/websocket-admin-service/logs"/>
+    <property name="ADMIN_CLIENT_LOG" value="${LOGS}/admin-client.log"/>
+
+    <appender name="admin" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${ADMIN_CLIENT_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${ADMIN_CLIENT_LOG}/archived/admin-client.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- each archived file, size max 10MB -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
+            <totalSizeCap>50MB</totalSizeCap>
+            <!-- 60 days to keep -->
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d %p %c [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %p %c [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+    
+	<logger name="org.springframework" level="info">
+		<appender-ref ref="admin"/>
+	</logger>
+
+    <root level="info">
+        <appender-ref ref="admin"/>
+    </root>
+    <root level="info">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
