@@ -2,9 +2,9 @@
 
 ### Architecture
 	Message Producer: using Kafka Producer API (instead of Spring for Apache Kafka).
-	Static topic mytopic
+	The topic mytopic is created programmatically and not removed after the message is sent.
 
-	Message Consumer: using Spring for Apache Kafka. Annotation @KafkaListener on method. The listener is created statistically.
+	Message Consumer: using Spring for Apache Kafka. Annotation @KafkaListener on method. The listener is created with Spring annotation.
 	
 	WebSocket needs to connect with server before the message producer publishes a message to the topic.
 	
