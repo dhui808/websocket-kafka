@@ -37,13 +37,12 @@ public class KafkaMessageListener implements MessageListener<String, String>  {
 		String message = data.value();
         log.info("Received Json Message in groupId='" + id + "'," + message);
 
-      String[] messageArray  = message.split(";");
-      simpMessagingTemplate.convertAndSend("/topic/greetings/"+ messageArray[1], messageArray[0]);
-      log.info("message is sent: " + message);
-	
-      // Stop container. No need to be async
-      container.stop();
-      
+        String[] messageArray  = message.split(";");
+        simpMessagingTemplate.convertAndSend("/topic/greetings/"+ messageArray[1], messageArray[0]);
+        log.info("message is sent: " + message);
+
+        // Stop container. No need to be async
+        container.stop();
 	}
 
 }

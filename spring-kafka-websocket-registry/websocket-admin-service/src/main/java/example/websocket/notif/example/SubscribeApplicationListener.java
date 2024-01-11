@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
@@ -17,16 +16,13 @@ import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 @Service
 public class SubscribeApplicationListener implements ApplicationListener<SessionSubscribeEvent> {
 
-	private ApplicationContext context;
     private final ConcurrentKafkaListenerContainerFactory<String, String> factory;
 
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
     
     @Autowired
-    public SubscribeApplicationListener(ApplicationContext context,
-    		ConcurrentKafkaListenerContainerFactory<String, String> factory) {
-        this.context = context;
+    public SubscribeApplicationListener(ConcurrentKafkaListenerContainerFactory<String, String> factory) {
         this.factory = factory;
     }
 

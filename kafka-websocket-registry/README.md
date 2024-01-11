@@ -1,34 +1,23 @@
-## Spring Boot, Spring for Apache Kafka, WebSocket - Part 4
+## Spring Boot, Apache Kafka, WebSocket
 
 ### Architecture
-	Message Producer: using Spring for Apache Kafka.
+	Message Producer: using Apache Kafka Producer. Spring for Apache Kafka is not used.
 	MessageProducer and the topic are created dynamically.
 	Topic is deleted after the message is sent.
 
-	Message Consumer: using Spring for Apache Kafka. KafkaMessageListener implements Spring MessageListener.
+	Message Consumer: using Apache Kafka Consumer
 	
-	ConcurrentMessageListenerContainer is created and started dynamically.
+	Kafka consumer subscribes the topic dynamically when a SessionSubscribeEvent is received. 
 	
-	KafkaMessageListener is created from the container and the topic parameter.
-	
-	Once the message is received and published to WebSocket topic, the container is stopped.
+	Once the message is received and published to WebSocket topic, Kafka custumer unsubscribes the topic.
 	
 	WebSocket can connect with server either before or after the message producer publishes a message to the topic.
 	
-	SessionSubscribeEvent is raised when a new WebSocket client using a Simple Messaging Protocol (e.g. STOMP) sends a subscription request.
-
-	This is the right way of dynamically starting and stopping Kafka listener container.
-	
-	https://stackoverflow.com/questions/69160889/spring-kafka-close-the-container-and-read-the-messages-from-specific-offset-wit
-	
-	https://bikas-katwal.medium.com/start-stop-kafka-consumers-or-subscribe-to-new-topic-programmatically-using-spring-kafka-2d4fb77c9117
+	SessionSubscribeEvent is raised when a new WebSocket client using a Simple Messaging Protocol (e.g. STOMP) sends a subscription request. This part of Sprig WebSocket.
 
 ### How to make sure offset is always 0?
 
-	ConcurrentMessageListenerContainer<String, String> container =
-                this.factory.createContainer(new TopicPartitionOffset(topic, 0, 0L, false));
-	
-	Note, TopicPartitionOffset needs to be created with relativeToCurrent = false (the fourth parameter in the constructor).
+	KafkaConsumer.seekToBeginning
 	  	
 ### Start Kafka with the -d option to run in detached mode
 
@@ -66,6 +55,7 @@
 
 ### Send a message
 	curl localhost:9080/producer/100/sayhello-100
+	
 
 ### SessionSubscribeEvent
 	SessionSubscribeEvent.getMessage ->

@@ -31,7 +31,7 @@ public class MessageProducerController {
         
         //Deliberate delay to let listener consume produced message before main thread stops
         try {
-			Thread.sleep(30000);
+			Thread.sleep(20000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

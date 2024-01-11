@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<property name="LOGS" value="/opt/spring-kafka-websocket-registry/websocket-producer-service/logs"/>
+    <property name="PRODUCER_LOG" value="${LOGS}/producer.log"/>
+
+    <appender name="producer" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${PRODUCER_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${PRODUCER_LOG}/archived/producer.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- each archived file, size max 10MB -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- total size of all archive files, if total size > 20GB, it will delete old archived file -->
+            <totalSizeCap>50MB</totalSizeCap>
+            <!-- 60 days to keep -->
+            <maxHistory>10</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d %p %c [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %p %c [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+    
+	<logger name="org.springframework" level="info">
+		<appender-ref ref="producer"/>
+	</logger>
+
+    <root level="debug">
+        <appender-ref ref="producer"/>
+    </root>
+    <root level="debug">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
