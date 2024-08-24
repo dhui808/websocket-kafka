@@ -56,7 +56,7 @@
 	http://localhost:4200
 		
 	Topic to connect on:
-	123
+	100
 
 	Click "Connect to websocket" button.
 	
